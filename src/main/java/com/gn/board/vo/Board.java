@@ -20,5 +20,6 @@ public class Board extends Paging{
 	private String board_title;
 	private String board_content;
 	private Date reg_date; // java.util로 import
+	private String order_type = "1";
 	
 }

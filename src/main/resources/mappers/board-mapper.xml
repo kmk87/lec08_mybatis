@@ -16,6 +16,14 @@
 				AND board_content LIKE CONCAT('%',#{board_content},'%')
 			</if>
 		</where>
+		<choose>
+			<when test='order_type != null and order_type.equals("2") == true'>
+				ORDER BY reg_date ASC 
+			</when>
+			<otherwise>
+				ORDER BY reg_date DESC
+			</otherwise>
+		</choose>
 		LIMIT #{limitPageNo}, #{numPerPage}
 	</select>
 	

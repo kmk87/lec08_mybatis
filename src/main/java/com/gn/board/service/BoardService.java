@@ -60,6 +60,7 @@ public class BoardService {
 	public int boardInsert(Board vo) {
 		SqlSession session = getSqlSession();
 		int result = new BoardDao().boardInsert(session,vo);
+		System.out.println(result);
 		session.close();
 		return result;
 	}

@@ -27,6 +27,10 @@ public class BoardListServlet extends HttpServlet {
 		// 2. 
 		Board option = new Board(); // option : 전체 목록의 개수
 		
+		// 최신순, 오래된순 조회
+		String orderType = request.getParameter("order_type");
+		option.setOrder_type(orderType);
+		
 		// 검색 하기
 		// 제목으로 검색
 		String boardTitle = request.getParameter("board_title");
@@ -36,7 +40,7 @@ public class BoardListServlet extends HttpServlet {
 		String boardContent = request.getParameter("board_content");
 		option.setBoard_content(boardContent);
 		
-		System.out.println(option);
+		
 		
 		String nowPage = request.getParameter("nowPage");
 		if(nowPage != null) {

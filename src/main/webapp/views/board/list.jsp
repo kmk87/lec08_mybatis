@@ -12,8 +12,8 @@
 	<input type="button" value="등록" onclick="openInsert();">
 	<form action="<c:url value='/boardList'/>" method="get" id="searchFrm">
 		<select name="order_type" id="order_type">
-			<option value="1">최신순</option>
-			<option value="2">오래된순</option>
+			<option value="1" <c:if test="${paging.order_type == '1' }">selected </c:if>>최신순</option>
+			<option value="2" <c:if test="${paging.order_type == '2' }">selected </c:if>>오래된순</option>
 		</select>
 		<input type="text" name="board_title" placeholder="검색 제목을 입력하세요"
 		value="<c:out value='${paging.board_title }'/>">
@@ -48,7 +48,7 @@
 							<!-- jstl에서 지정해준 b  -->
 							<td><c:out value="${b.board_title }"/></td>
 							<td><c:out value="${b.board_content }" /></td>
-							<td><fmt:formatDate pattern="yy-MM-dd" value="${b.reg_date }"/> </td>
+							<td><fmt:formatDate pattern="yy-MM-dd hh:mm:ss" value="${b.reg_date }"/> </td>
 							<td>
 								<button onclick="deleteBoard('${b.board_no}')">삭제</button>
 							</td>
@@ -110,17 +110,22 @@
 					url: '<%=request.getContextPath()%>/boardInsertEnd',
 					contentType:'application/x-www-form-urlencoded; charset=utf-8',
 					data:{"title":title,"content":content},
-					success: function(res_code){
-						const resp = xhr.responseText;
-						if(res_code == '200'){
-							alert("게시글이 등록 되었습니다.");
-							location.href="<%=request.getContextPath()%>/boardList";
-						}else{
-							alert("게시글 등록 중 오류가 발생하였습니다.");
+					success: xhr.onreadystatechange = function(res_code){
+						if(xhr.readyState == 4 && xhr.status == 200){
+							const resp = xhr.responseText;
+							if(resp == '200'){
+								alert("게시글이 등록 되었습니다.");
+								location.href="<%=request.getContextPath()%>/boardList";
+							}else{
+								alert("게시글 등록 중 오류가 발생하였습니다.");
+							}
 						}
 					},
 					error: function(xhr, status, error){
 						alert("게시글 등록 중 오류가 발생하였습니다.");
+						
+						
+						xhr.send("board_no="+no+"&board_title="+title+"&board_content="+content);
 					}
 				});
 			}
