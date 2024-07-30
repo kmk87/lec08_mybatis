@@ -9,6 +9,14 @@
 		SELECT *
 		FROM `board`
 		<where>
+			<if test="bad_word != null and bad_word.size != 0">
+				AND board_title NOT IN
+				<foreach collection="bad_word" item="item"
+				open="(" separator="," close=")">
+					#{item}
+					
+				</foreach>
+			</if>
 			<if test='board_title != null and board_title.equals("") == false'>
 				AND board_title LIKE CONCAT('%',#{board_title},'%')
 			</if>
@@ -32,6 +40,14 @@
 		SELECT COUNT(*)
 		FROM `board`
 		<where>
+			<if test="bad_word != null and bad_word.size != 0">
+				AND board_title NOT IN
+				<foreach collection="bad_word" item="item"
+				open="(" separator="," close=")">
+					#{item}
+					
+				</foreach>
+			</if>
 			<if test='board_title != null and board_title.equals("") == false'>
 				AND board_title LIKE CONCAT('%',#{board_title},'%')
 			</if>
@@ -62,7 +78,7 @@
 	
 	<insert id="boardInsert" parameterType="com.gn.board.vo.Board">
 		INSERT INTO `board`(board_title,board_content)
-		VALUES #{board_title},#{board_content}
+		VALUES (#{board_title},#{board_content})
 	</insert>
 	
 	

@@ -1,6 +1,7 @@
 package com.gn.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -26,6 +27,14 @@ public class BoardListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 2. 
 		Board option = new Board(); // option : 전체 목록의 개수
+		
+		// 나쁜말 거르기 a,b,c,가 나쁜말
+		List<String> arr = new ArrayList<String>();
+		arr.add("a");
+		arr.add("b");
+		arr.add("c");
+		option.setBad_word(arr);
+		
 		
 		// 최신순, 오래된순 조회
 		String orderType = request.getParameter("order_type");

@@ -105,30 +105,22 @@
 				// insert 실패 : "게시글 등록 중 오류가 발생하였습니다."
 				const xhr = new XMLHttpRequest();
 				
-				$.ajax({
-					type: 'post',
-					url: '<%=request.getContextPath()%>/boardInsertEnd',
-					contentType:'application/x-www-form-urlencoded; charset=utf-8',
-					data:{"title":title,"content":content},
-					success: xhr.onreadystatechange = function(res_code){
-						if(xhr.readyState == 4 && xhr.status == 200){
-							const resp = xhr.responseText;
-							if(resp == '200'){
-								alert("게시글이 등록 되었습니다.");
-								location.href="<%=request.getContextPath()%>/boardList";
-							}else{
-								alert("게시글 등록 중 오류가 발생하였습니다.");
-							}
+				xhr.open("post","<%=request.getContextPath()%>/boardInsertEnd",true);
+				xhr.onreadystatechange = function(){
+					if(xhr.readyState == 4 && xhr.status == 200){
+						const resp = xhr.responseText;
+						if(resp == '200'){
+							alert("게시글이 등록 되었습니다.");
+							location.href="<%=request.getContextPath()%>/boardList";
+						} else{
+							alert("게시글 등록 중 오류가 발생하였습니다.");
 						}
-					},
-					error: function(xhr, status, error){
-						alert("게시글 등록 중 오류가 발생하였습니다.");
-						
-						
-						xhr.send("board_no="+no+"&board_title="+title+"&board_content="+content);
 					}
-				});
-			}
+				}
+				xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
+				xhr.send("board_title="+title+"&board_content="+content);
+	
+			} 
 		},1000);
 	
 	}
