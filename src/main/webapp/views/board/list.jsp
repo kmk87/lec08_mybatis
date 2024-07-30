@@ -9,6 +9,7 @@
 <title>게시판 목록</title>
 </head>
 <body>
+	<input type="button" value="등록" onclick="openInsert();">
 	<table border="1">
 		<thead>
 			<tr>
@@ -63,6 +64,12 @@
 		</div>
 	</c:if>
 <script>
+/* 게시글 등록 */
+	const openInsert = function(){
+		let newWin = window.open("<%=request.getContextPath()%>/boardInsert","_blank","width=300,height=300");
+	}
+
+
 /* delete하기 위해 만들어줌 */
 	const tds = document.querySelectorAll("table tr td:not(:last-child)");
 	for(let i = 0; i < tds.length ; i++){
