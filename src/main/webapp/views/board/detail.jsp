@@ -29,8 +29,14 @@
 			xhr.open("post","<%=request.getContextPath()%>/boardUpdate",true);
 			/* 응답이 갔다 오면 어떻게?? */
 			xhr.onreadystatechange = function(){
+				/* 오류코드 200과는 다른 200임 */
 				if(xhr.readyState == 4 && xhr.status == 200){
 					const resp = xhr.responseText;
+					if(resp == '200'){
+						location.href="<%=request.getContextPath()%>/boardList";
+					} else{
+						alert("게시글 수정중 오류가 발생하였습니다.");
+					}
 				}
 			}
 			/* 환경설정 */

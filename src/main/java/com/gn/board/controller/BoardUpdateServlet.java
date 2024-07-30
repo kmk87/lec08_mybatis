@@ -29,21 +29,26 @@ public class BoardUpdateServlet extends HttpServlet {
 		
 		// 연습
 		// 1. Board 객체에 no, title, content 정보 담기
+		Board vo = new Board();
+		vo.setBoard_no(boardNo);
+		vo.setBoard_content(boardContent);
+		vo.setBoard_title(boardTitle);
+		
 		// 2. Service -> Dao -> board-mapper.xml 통해 데이터 update
+		int result = new BoardService().updateBoard(vo);
+		
 		// 3. board_title, board_content 를 수정하면 되는데, 기준은 board_no
 		// 4. update 쿼리는 resultType이 무조건 int이므로 적지 않습니다.
 		
-//		System.out.println(boardNo+" : "+boardTitle+" : "+boardContent);
-		Board b = new Board();
-		b.setBoard_no(boardNo);
-		b.setBoard_content(boardContent);
-		b.setBoard_title(boardTitle);
+		String resp_code = "500"; // 500 에러
+		if(result > 0) {
+			resp_code = "200"; // 정상통신
+		} 
 		
-		
-		int resultUp = new BoardService().selectUpdate(b);
-		
-		System.out.println(resultUp);
-		
+		//에이작스 리퀘스트디스팩처 안씀
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().append(resp_code);
+		// 디테일.jsp로 감
 		
 		
 	}

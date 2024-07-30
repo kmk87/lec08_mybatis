@@ -39,11 +39,20 @@ public class BoardService {
 	
 	// 업데이트 과제
 	
-	public int selectUpdate(Board b) {
+	public int updateBoard(Board vo) {
 		SqlSession session = getSqlSession();
-		int resultUp = new BoardDao().selectUpdate(session,b);
+		int result = new BoardDao().updateBoard(session,vo);
 		session.close();
-		return resultUp;
+		return result;
+	}
+	
+	// 삭제 연습
+	
+	public int deleteBoard(int boardNo) {
+		SqlSession session = getSqlSession();
+		int result = new BoardDao().deleteBoard(session,boardNo);
+		session.close();
+		return result;
 	}
 	
 }

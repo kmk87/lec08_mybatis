@@ -23,7 +23,11 @@ public class BoardDao {
 				
 	}
 	
-	public int selectUpdate(SqlSession session, Board b) {
-		return session.update("boardMapper.selectUpdate", b);
+	public int updateBoard(SqlSession session, Board vo) {
+		return session.update("boardMapper.updateBoard", vo);
+	}
+	
+	public int deleteBoard(SqlSession session, int boardNo) {
+		return session.delete("boardMapper.deleteBoard", boardNo);
 	}
 }
