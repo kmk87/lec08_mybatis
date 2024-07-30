@@ -11,7 +11,14 @@
 <body>
 	<input type="button" value="등록" onclick="openInsert();">
 	<form action="<c:url value='/boardList'/>" method="get" id="searchFrm">
-		<input type="text" name="board_title" placeholder="검색 제목을 입력하세요">
+		<select name="order_type" id="order_type">
+			<option value="1">최신순</option>
+			<option value="2">오래된순</option>
+		</select>
+		<input type="text" name="board_title" placeholder="검색 제목을 입력하세요"
+		value="<c:out value='${paging.board_title }'/>">
+		<input type="text" name="board_content" placeholder="검색 내용을 입력하세요"
+		value="<c:out value='${paging.board_content }'/>">
 		<input type="submit" value="검색">
 	
 	</form>
@@ -77,6 +84,14 @@
 		<input type="button" value="등록" onclick="insertBoard();">
 	</form>
 <script>
+/* 검색한 목록 정렬 */
+ 	const orderType = document.getElementById("order_type");
+ 	orderType.onchange = function(){
+ 		document.getElementById("searchFrm").submit();
+ 	}
+ 
+
+
 /* 게시글 등록 */
 	const openInsert = function(){
 		let newWin = window.open("<%=request.getContextPath()%>/boardInsert","_blank","width=300,height=300");
@@ -88,18 +103,24 @@
 				// ajax로 /boardInsertEnd(post) 경로에 데이터 전달해서 insert
 				// insert 잘 수행되었을 때 : 목록 화면 전환
 				// insert 실패 : "게시글 등록 중 오류가 발생하였습니다."
+				const xhr = new XMLHttpRequest();
+				
 				$.ajax({
 					type: 'post',
 					url: '<%=request.getContextPath()%>/boardInsertEnd',
 					contentType:'application/x-www-form-urlencoded; charset=utf-8',
-					result:{"title":title,"content":content},
+					data:{"title":title,"content":content},
 					success: function(res_code){
+						const resp = xhr.responseText;
 						if(res_code == '200'){
 							alert("게시글이 등록 되었습니다.");
 							location.href="<%=request.getContextPath()%>/boardList";
 						}else{
 							alert("게시글 등록 중 오류가 발생하였습니다.");
 						}
+					},
+					error: function(xhr, status, error){
+						alert("게시글 등록 중 오류가 발생하였습니다.");
 					}
 				});
 			}

@@ -28,9 +28,15 @@ public class BoardListServlet extends HttpServlet {
 		Board option = new Board(); // option : 전체 목록의 개수
 		
 		// 검색 하기
+		// 제목으로 검색
 		String boardTitle = request.getParameter("board_title");
 		option.setBoard_title(boardTitle);
 		
+		// 내용으로 검색
+		String boardContent = request.getParameter("board_content");
+		option.setBoard_content(boardContent);
+		
+		System.out.println(option);
 		
 		String nowPage = request.getParameter("nowPage");
 		if(nowPage != null) {
