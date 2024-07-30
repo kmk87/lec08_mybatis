@@ -21,9 +21,9 @@ public class BoardService {
 	}
 	
 	// 하나만 출력
-	public int selectBoardCount() {
+	public int selectBoardCount(Board option) {
 		SqlSession session = getSqlSession();
-		int count = new BoardDao().selectBoardCount(session);
+		int count = new BoardDao().selectBoardCount(session,option);
 		session.close();
 		return count;
 	}
@@ -51,6 +51,15 @@ public class BoardService {
 	public int deleteBoard(int boardNo) {
 		SqlSession session = getSqlSession();
 		int result = new BoardDao().deleteBoard(session,boardNo);
+		session.close();
+		return result;
+	}
+	
+	// 게시글 등록 연습
+	
+	public int boardInsert(Board vo) {
+		SqlSession session = getSqlSession();
+		int result = new BoardDao().boardInsert(session,vo);
 		session.close();
 		return result;
 	}

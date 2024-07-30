@@ -14,8 +14,8 @@ public class BoardDao {
 		
 	}
 	
-	public int selectBoardCount(SqlSession session) {
-		return session.selectOne("boardMapper.selectBoardCount"); // 하나만 가져올거라서 One
+	public int selectBoardCount(SqlSession session, Board option) {
+		return session.selectOne("boardMapper.selectBoardCount",option); // 하나만 가져올거라서 One
 	}
 	
 	public Board selectBoardOne(SqlSession session, int boardNo) {
@@ -30,4 +30,10 @@ public class BoardDao {
 	public int deleteBoard(SqlSession session, int boardNo) {
 		return session.delete("boardMapper.deleteBoard", boardNo);
 	}
+	
+	public int boardInsert(SqlSession session, Board vo) {
+		return session.insert("boardMapper.boardInsert", vo);
+	}
+	
+	
 }

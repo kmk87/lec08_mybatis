@@ -10,6 +10,11 @@
 </head>
 <body>
 	<input type="button" value="등록" onclick="openInsert();">
+	<form action="<c:url value='/boardList'/>" method="get" id="searchFrm">
+		<input type="text" name="board_title" placeholder="검색 제목을 입력하세요">
+		<input type="submit" value="검색">
+	
+	</form>
 	<table border="1">
 		<thead>
 			<tr>
@@ -63,10 +68,43 @@
 			</div>
 		</div>
 	</c:if>
+	<!-- 자식창의 도착지 -->
+	<form style="display:none;" action="<c:url value='/boardInsertEnd'/>" method="post" id="insertFrm">
+		<label for="parent_board_title">제목</label>
+		<input type="text" id="parent_board_title" name="board_title">
+		<label for="parent_board_content">내용</label>
+		<textarea name="board_content" id="parent_board_content"></textarea>
+		<input type="button" value="등록" onclick="insertBoard();">
+	</form>
 <script>
 /* 게시글 등록 */
 	const openInsert = function(){
 		let newWin = window.open("<%=request.getContextPath()%>/boardInsert","_blank","width=300,height=300");
+		let timer = setInterval(function(){
+			if(newWin.closed){
+				clearInterval(timer);
+				const title = document.getElementById("parent_board_title").value;
+				const content = document.getElementById("parent_board_content").value;
+				// ajax로 /boardInsertEnd(post) 경로에 데이터 전달해서 insert
+				// insert 잘 수행되었을 때 : 목록 화면 전환
+				// insert 실패 : "게시글 등록 중 오류가 발생하였습니다."
+				$.ajax({
+					type: 'post',
+					url: '<%=request.getContextPath()%>/boardInsertEnd',
+					contentType:'application/x-www-form-urlencoded; charset=utf-8',
+					result:{"title":title,"content":content},
+					success: function(res_code){
+						if(res_code == '200'){
+							alert("게시글이 등록 되었습니다.");
+							location.href="<%=request.getContextPath()%>/boardList";
+						}else{
+							alert("게시글 등록 중 오류가 발생하였습니다.");
+						}
+					}
+				});
+			}
+		},1000);
+	
 	}
 
 

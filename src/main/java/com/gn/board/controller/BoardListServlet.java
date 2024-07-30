@@ -27,12 +27,17 @@ public class BoardListServlet extends HttpServlet {
 		// 2. 
 		Board option = new Board(); // option : 전체 목록의 개수
 		
+		// 검색 하기
+		String boardTitle = request.getParameter("board_title");
+		option.setBoard_title(boardTitle);
+		
+		
 		String nowPage = request.getParameter("nowPage");
 		if(nowPage != null) {
 			option.setNowPage(Integer.parseInt(nowPage));
 		}
 		
-		option.setTotalData(new BoardService().selectBoardCount());
+		option.setTotalData(new BoardService().selectBoardCount(option));
 		
 		// 1. Board 목록 조회(mybatis)해서 화면으로 전달(jstl)
 		List<Board> resultList = new BoardService().selectBoardList(option);
